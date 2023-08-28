@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+
+
+{% block title%} {% if form.title.value %}Edit{% else %}New{% endif %} Task {% endblock %}
+
+
+
+{% block content %}
+{% load crispy_forms_tags %} 
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h3 class="card-title text-center mb-4">{% if form.title.value %}Edit{% else %}New{% endif %} Task</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+
+{% block title%} {% if 'login' in request.path %}Login Page{% else %}Sign Up{% endif %}{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %} 
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h3 class="card-title text-center mb-4">{% if 'login' in request.path %}Login{% else %}Sign Up{% endif %}</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary">{% if 'login' in request.path %}Login{% else %}Register{% endif %}</button>
+                    </div>
+                </form>
+                {% if 'login' in request.path %}
+                <p class="text-center mt-3">Don't have an account? Create one <a href="/sign-up">Here</a>!</p>
+                {% else %}
+                <p class="text-center mt-3">Do you already have an account? Sign-in <a href="/login">Here</a>!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'main/base.html' %}
+
+{% block title%} Home Page {% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto">
+{% if user.is_staff %}
+    <div class="row">
+        <h2 class="mt-3 text-capitalize">
+            {{user_i.username}}'s Profile
+        </h2>
+        <br>
+        <h5>
+            {{user_i.email}}
+        </h5>
+    </div>
+    <div class="row">
+        <div class="col-11 mt-3"></div>
+        <div class="col-1 row mt-3">
+            <a class="btn btn-block btn-success" href='/new-task/{{user_i.id}}'>New +</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-3">
+            {% for task in tasks %}
+                {% if user_i == task.user %}
+                    <div class="card mt-3 row">
+                        <div class="card-body row">
+                            <div class="col-11">
+                                <h5 class="card-title">{{ task.title }}</h5>
+                                <p class="card-text">{{ task.description }}</p>
+                                {% if task.done %}
+                                    <p class="card-text"><i class="fas fa-check text-success"></i> Done</p>
+                                {% else %}
+                                    <p class="card-text"><i class="fas fa-times text-danger"></i> Not Done</p>
+                                {% endif %}
+
+                            </div>
+                            <div class="col-1 text-center my-auto">
+                                <div class="row">
+                                    <a class="btn btn-block btn-danger" href="/edit-task/delete/{{task.id}}">Delete</a>
+                                </div>
+                                <div class="row">
+                                    {% if task.done %}
+                                    <a class="btn btn-block btn-outline-secondary mt-1" href="/edit-task/notdone/{{task.id}}">Not Done</a>
+                                    {% else %}
+                                    <a class="btn btn-block btn-outline-success mt-1" href="/edit-task/done/{{task.id}}">Done</a>
+                                    {% endif %}
+                                    <a class="btn btn-block btn-warning mt-1" href="/edit-task/edit/{{task.id}}">Edit</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
