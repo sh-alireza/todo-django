@@ -28,6 +28,9 @@
                     {% endif %}
                     {% endfor %}
                     <a href="/user-profile/{{user_i.id}}" class="btn btn-primary">View Profile</a>
+                    {% if user.is_staff %}
+                    <a href="/remove-profile/{{user_i.id}}" class="btn btn-danger">Remove Profile</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

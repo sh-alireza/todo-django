@@ -96,3 +96,11 @@ def user_profile(request,user_id):
         print("post")
         
     return redirect('/home')
+
+@login_required(login_url="/login")
+def remove_profile(request,user_id):
+    if request.method == "GET":
+        user = User.objects.filter(id=user_id).first()
+        user.delete()
+    
+    return redirect("/home")
