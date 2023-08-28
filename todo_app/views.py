@@ -37,6 +37,7 @@ def new_task(request,user_id):
             task = form.save(commit=False)
             task.user = get_object_or_404(User, id=user_id)
             task.save()
+
             return redirect("/home")
 
     else:
@@ -44,6 +45,7 @@ def new_task(request,user_id):
         
     context = {"form": form,
                "user_id":user_id}
+    
     return render(request, 'main/task_form.html', context)
 
 @login_required(login_url="/login")
@@ -75,7 +77,8 @@ def edit_task(request,edit_type,task_id):
         if form.is_valid():
             task = form.save()
             
-    if request.user.is_staff:
+    if request.user.is_staff or request.user.has_perm("todo_app.delete_task"):
+        
         return redirect(request.META.get('HTTP_REFERER'))
     
     return redirect('/home')

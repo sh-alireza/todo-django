@@ -5,10 +5,12 @@
 {% block content %}
 
 <div class="container mx-auto">
-{% if user.is_staff %}
+{% if user.is_staff or perms.todo_app.delete_task %}
+<br>
+    <h2 class="text-capitalize mt-3">Users</h2>
     <div class="row">
         {% for user_i in users %}
-        {% if user != user_i %}
+        {% if not user_i.is_staff and user != user_i %}
         <div class="col-4 mt-3">
             <div class="card">
                 <div class="card-body">
@@ -32,14 +34,17 @@
         {% endif %}
         {% endfor %}
     </div>
+<br>
 {% else %}
+{% endif %}
+    <h2 class="text-capitalize mt-3">My Tasks</h2>
     <div class="row">
         <div class="col-11 mt-3"></div>
         <div class="col-1 row mt-3">
             <a class="btn btn-block btn-success" href='/new-task/{{user.id}}'>New +</a>
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-12 mt-3">
             {% for task in tasks %}
                 {% if user == task.user %}
@@ -74,6 +79,5 @@
             {% endfor %}
         </div>
     </div>
-{% endif %}
 </div>
 {% endblock %}

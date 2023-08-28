@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="container mx-auto">
-{% if user.is_staff %}
+{% if user.is_staff or perms.todo_app.delete_task %}
     <div class="row">
         <h2 class="mt-3 text-capitalize">
             {{user_i.username}}'s Profile
